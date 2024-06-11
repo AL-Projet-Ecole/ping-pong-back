@@ -21,11 +21,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Ping-Pong-Gestionnaire/Ping-Pong-back.git"
+    "url": "git+https://github.com/AL-Projet-Ecole/ping-pong-back.git"
   },
   "bugs": {
-    "url": "https://github.com/Ping-Pong-Gestionnaire/Ping-Pong-back/issues"
+    "url": "https://github.com/AL-Projet-Ecole/ping-pong-back/issues"
   },
-  "homepage": "https://github.com/Ping-Pong-Gestionnaire/Ping-Pong-back#readme",
+  "homepage": "https://github.com/AL-Projet-Ecole/ping-pong-backk#readme",
   "description": ""
 }
