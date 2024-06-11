@@ -1,5 +1,7 @@
 const express = require('express');
 const { initializeConfigMiddlewares, initializeErrorMiddlwares } = require('./middlewares');
+const testRoutes = require('../controllers/test.route');
+const {sequelize} = require("../models/db");
 
 class WebServer {
     app = undefined;
@@ -8,7 +10,7 @@ class WebServer {
 
     constructor() {
         this.app = express();
-        //sequelize.sync()
+        sequelize.sync()
         initializeConfigMiddlewares(this.app);
         this._initializeRoutes();
         initializeErrorMiddlwares(this.app);
@@ -25,6 +27,7 @@ class WebServer {
     }
 
     _initializeRoutes() {
+        this.app.use('/tests', testRoutes.initializeRoutes());
         //this.app.use('/users', userRoutes.initializeRoutes());
     }
 }
