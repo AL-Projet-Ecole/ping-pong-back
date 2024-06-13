@@ -31,7 +31,7 @@ router.post(
             const user = await userRepository.getUserByNom(nom_user);
 
             if (!user){
-                if (req.body.mdp_user.length() > 8 ){
+                if (req.body.mdp_user.length > 8 ){
                     await userRepository.createUser(req.body);
                     res.status(201).end();
                 }
