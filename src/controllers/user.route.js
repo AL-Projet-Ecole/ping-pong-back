@@ -31,7 +31,7 @@ router.post(
             const user = await userRepository.getUserByNom(nom_user);
 
             if (!user){
-                if (req.body.mdp_user.length() > 8 ){
+                if (req.body.mdp_user.length > 8 ){
                     await userRepository.createUser(req.body);
                     res.status(201).end();
                 }
@@ -56,7 +56,7 @@ router.put('/:id_user', async (req, res) => {
 });
 
 router.delete('/:id_user', async (req, res) => {
-    await userRepository.deleteUser(req.params.id);
+    await userRepository.deleteUser(req.params.id_user);
     res.status(204).end();
 });
 
