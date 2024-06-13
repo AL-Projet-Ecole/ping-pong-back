@@ -11,7 +11,8 @@ class WebServer {
 
     constructor() {
         this.app = express();
-        sequelize.sync({force : true})
+        //{force : true}
+        sequelize.sync()
         initializeConfigMiddlewares(this.app);
         this._initializeRoutes();
         initializeErrorMiddlwares(this.app);

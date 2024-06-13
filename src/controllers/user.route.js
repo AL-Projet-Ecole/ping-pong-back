@@ -56,7 +56,7 @@ router.put('/:id_user', async (req, res) => {
 });
 
 router.delete('/:id_user', async (req, res) => {
-    await userRepository.deleteUser(req.params.id);
+    await userRepository.deleteUser(req.params.id_user);
     res.status(204).end();
 });
 
