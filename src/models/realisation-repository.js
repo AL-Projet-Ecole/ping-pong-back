@@ -24,8 +24,10 @@ exports.updateRealisation = async (id_realisation, data) => {
 
     await Realisation.update(
         {
-            label_user: data.label_user || foundRealisation.label_user,
-            //TODO FAIRE LE TOUT ICI
+            id_user: data.id_user || foundRealisation.id_user,
+            id_poste: data.id_poste || foundRealisation.id_poste,
+            id_machine: data.id_user || foundRealisation.id_machine,
+            temps_realisation: data.temps_realisation || foundRealisation.temps_realisation,
         },
         { where: { id_realisation } },
     );
