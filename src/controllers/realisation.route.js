@@ -1,62 +1,41 @@
 const express = require('express');
 const router = express.Router();
-const userRepository = require('../models/user-repository');
+const realisationRepository = require('../models/realisation-repository');
 const { validateBody } = require('./validation/route.validator');
 const { body } = require('express-validator');
 
 router.get('/', async (req, res) => {
-    res.send(await userRepository.getUsers());
+    res.send(await realisationRepository.getRealisations());
 });
 
-router.get('/:nom_user', async (req, res) => {
-    const foundUser = await userRepository.getUserByNom(req.params.nom_user);
+router.get('/:id_realisation', async (req, res) => {
+    const foundRealisation = await realisationRepository.getRealisationById(req.params.id_realisation);
 
-    if (foundUser) {
-        res.status(200).send([foundUser]);
+    if (foundRealisation) {
+        res.status(200).send([foundRealisation]);
         return;
     }
-    if (!foundUser) {
-        const foundUser = null;
-        res.status(500).send('User not found');
+    if (!foundRealisation) {
+        const foundRealisation = null;
+        res.status(500).send('Realisation not found');
         return ;
     }
-    res.send(foundUser);
+    res.send(foundRealisation);
 });
 router.post(
     '/',
-    body('nom_user').notEmpty(),
     async (req, res) => {
         const {nom_user} = req.body;
         try{
-            const user = await userRepository.getUserByNom(nom_user);
-
-            if (!user){
-                if (req.body.mdp_user.length > 8 ){
-                    await userRepository.createUser(req.body);
-                    res.status(201).end();
-                }
-                else {
-                    res.status(412).send("Le mot de passe n'est pas assé long ! !")
-                }
-            }
-            else {
-                res.status(412).send("Utilisateur déja utilisé !")
-            }
+            await realisationRepository.createRealisation(req.body);
         } catch (e){
             res.status(411).send(e)
         }
 
     },
 );
-
-
-router.put('/:id_user', async (req, res) => {
-    await userRepository.updateUser(req.params.id, req.body).catch((err) => res.status(500).send(err.message));
-    res.status(204).end();
-});
-
-router.delete('/:id_user', async (req, res) => {
-    await userRepository.deleteUser(req.params.id_user);
+router.delete('/:id_realisation', async (req, res) => {
+    await realisationRepository.deleteRealisation(req.params.id_realisation);
     res.status(204).end();
 });
 

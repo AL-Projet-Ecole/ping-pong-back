@@ -4,6 +4,7 @@ const testRoutes = require('../controllers/test.route');
 const userRoutes = require('../controllers/user.route');
 const machineRoutes = require('../controllers/machine.route');
 const posteRoutes = require('../controllers/poste.route');
+const realisationRoutes = require('../controllers/realisation.route');
 const {sequelize} = require("../models/db");
 
 class WebServer {
@@ -35,6 +36,7 @@ class WebServer {
         this.app.use('/users', userRoutes.initializeRoutes());
         this.app.use('/machines', machineRoutes.initializeRoutes());
         this.app.use('/postes', posteRoutes.initializeRoutes());
+        this.app.use('/realisations', realisationRoutes.initializeRoutes());
     }
 }
 
