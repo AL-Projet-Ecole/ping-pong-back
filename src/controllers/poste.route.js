@@ -8,38 +8,32 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:nom_user', async (req, res) => {
-    const foundUser = await userRepository.getUserByNom(req.params.nom_user);
+    const foundPoste = await posteRepository.getPosteById(req.params.id_poste);
 
-    if (foundUser) {
-        res.status(200).send([foundUser]);
+    if (foundPoste) {
+        res.status(200).send([foundPoste]);
         return;
     }
-    if (!foundUser) {
-        const foundUser = null;
-        res.status(500).send('User not found');
+    if (!foundPoste) {
+        const foundPoste = null;
+        res.status(500).send('Poste not found');
         return ;
     }
-    res.send(foundUser);
+    res.send(foundPoste);
 });
 router.post(
     '/',
-    body('nom_user').notEmpty(),
+    body('libelle_poste').notEmpty(),
     async (req, res) => {
-        const {nom_user} = req.body;
+        const {libelle_poste} = req.body;
         try{
-            const user = await userRepository.getUserByNom(nom_user);
-
-            if (!user){
-                if (req.body.mdp_user.length > 8 ){
-                    await userRepository.createUser(req.body);
-                    res.status(201).end();
-                }
-                else {
-                    res.status(412).send("Le mot de passe n'est pas assé long ! !")
-                }
+            const poste = await posteRepository.getPosteByLibelle(libelle_poste);
+            if (!poste){
+                await posteRepository.createPoste(req.body);
+                res.status(201).end();
             }
             else {
-                res.status(412).send("Utilisateur déja utilisé !")
+                res.status(412).send("Un poste de travail porte deja ce libelle !")
             }
         } catch (e){
             res.status(411).send(e)
@@ -49,13 +43,13 @@ router.post(
 );
 
 
-router.put('/:id_user', async (req, res) => {
-    await userRepository.updateUser(req.params.id, req.body).catch((err) => res.status(500).send(err.message));
+router.put('/:id_poste', async (req, res) => {
+    await posteRepository.updatePoste(req.params.id, req.body).catch((err) => res.status(500).send(err.message));
     res.status(204).end();
 });
 
-router.delete('/:id_user', async (req, res) => {
-    await userRepository.deleteUser(req.params.id_user);
+router.delete('/:id_poste', async (req, res) => {
+    await posteRepository.deletePoste(req.params.id_poste);
     res.status(204).end();
 });
 

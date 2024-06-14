@@ -5,8 +5,8 @@ exports.getPostes = async () => {
     return await Poste.findAll();
 }
 
-exports.getPosteById = async (nom_user) => {
-    return await Poste.findOne({where : {id_poste}});
+exports.getPosteByLibelle = async (libelle_poste) => {
+    return await Poste.findOne({where : {libelle_poste}});
 }
 
 exports.createPoste = async (body) => {
@@ -19,7 +19,7 @@ exports.updatePoste = async (id_poste, data) => {
     const foundPoste = await Poste.findOne({ where: { id_poste } });
 
     if (!foundPoste) {
-        throw new Error('Pas de user');
+        throw new Error('Pas de poste');
     }
 
     await Poste.update(
@@ -32,6 +32,6 @@ exports.updatePoste = async (id_poste, data) => {
 };
 
 
-exports.deletePost = async (id_poste) => {
+exports.deletePoste = async (id_poste) => {
     await Poste.destroy({ where: { id_poste } });
 };
