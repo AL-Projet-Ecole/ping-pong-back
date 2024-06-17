@@ -5,8 +5,8 @@ exports.getOperations = async () => {
     return await Operation.findAll();
 }
 
-exports.getOperationByLibelle = async (libelle_poste) => {
-    return await Operation.findOne({where : {libelle_operation}});
+exports.getOperationById = async (id_operation) => {
+    return await Operation.findOne({where : {id_operation}});
 }
 
 exports.createOperation = async (body) => {
@@ -32,6 +32,6 @@ exports.updateOperation = async (id_operation, data) => {
 };
 
 
-exports.deletePoste = async (id_poste) => {
+exports.deleteOperation = async (id_poste) => {
     await Operation.destroy({ where: { id_poste } });
 };
