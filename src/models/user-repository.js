@@ -11,6 +11,12 @@ exports.getUserByNom = async (nom_user) => {
     return await User.findOne({where : {nom_user}});
 }
 
+exports.getUserByLogin = async (login_user) => {
+    console.log("je suis ici");
+    console.log(login_user);
+    return await User.findOne({where : {login_user}});
+}
+
 exports.createUser = async (body) => {
     const hashedPassword = generateHashedPassword(body.mdp_user);
     const user = body;
