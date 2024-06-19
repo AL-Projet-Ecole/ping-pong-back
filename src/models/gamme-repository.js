@@ -5,8 +5,8 @@ exports.getGammes = async () => {
     return await Gamme.findAll();
 }
 
-exports.getGammeById = async (nom_user) => {
-    return await Gamme.findOne({where : {id_gamme}});
+exports.getGammeByTitre = async (titre_gamme) => {
+    return await Gamme.findOne({where : {titre_gamme}});
 }
 
 exports.createGamme = async (body) => {
@@ -24,8 +24,7 @@ exports.updateGamme = async (id_gamme, data) => {
 
     await Gamme.update(
         {
-            libelle_gamme: data.libelle_gamme || foundGamme.libelle_gamme,
-            //TODO FAIRE LE TOUT ICI
+            titre_gamme: data.titre_gamme || foundGamme.titre_gamme,
         },
         { where: { id_gamme } },
     );
