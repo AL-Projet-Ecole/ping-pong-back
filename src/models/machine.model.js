@@ -1,14 +1,20 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('./db');
 
-const machine = sequelize.define(
-    'machines',
+const Machine = sequelize.define(
+    'Machine',
     {
-        id_machine: { primaryKey: true, type: DataTypes.STRING },
-        id_post: { foreignKey: true, type: DataTypes.STRING, allowNull: false },
-        libelle_machine: { type: DataTypes.STRING, allowNull: false }
+        id_machine: {
+            type: DataTypes.STRING,
+            primaryKey: true,
+            allowNull: false,
+        },
+        libelle_machine: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
     },
-    { tableName: 'machines' },
+    { tableName: 'machines' }
 );
 
-module.exports = machine;
+module.exports = Machine;
