@@ -5,7 +5,10 @@ const gamme = sequelize.define(
     'gammes',
     {
         id_gamme: { primaryKey: true, type: DataTypes.STRING },
-        titre_gamme: { type: DataTypes.STRING, allowNull: false }
+        titre_gamme: { type: DataTypes.STRING, allowNull: false },
+        quantite_gamme: { type: DataTypes.BIGINT, allowNull: false },
+        prix_gamme: { type: DataTypes.FLOAT, allowNull: true },
+        provenance_gamme: { type: DataTypes.STRING, allowNull: true },
     },
     { tableName: 'gammes' },
 );

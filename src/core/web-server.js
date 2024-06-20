@@ -8,6 +8,7 @@ const posteRoutes = require('../controllers/poste.route');
 const realisationRoutes = require('../controllers/realisation.route');
 const operationRoutes = require('../controllers/operation.route');
 const gammeRoutes = require('../controllers/gamme.route');
+const listOperationRoutes = require('../controllers/liste_operation.route');
 const {sequelize} = require("../models/db");
 
 class WebServer {
@@ -18,7 +19,7 @@ class WebServer {
     constructor() {
         this.app = express();
         //{force : true}
-        sequelize.sync()
+        sequelize.sync({force : true})
         initializeConfigMiddlewares(this.app);
         this._initializeRoutes();
         initializeErrorMiddlwares(this.app);
@@ -43,6 +44,7 @@ class WebServer {
         this.app.use('/realisations', realisationRoutes.initializeRoutes());
         this.app.use('/operations', operationRoutes.initializeRoutes());
         this.app.use('/gammes', gammeRoutes.initializeRoutes());
+        this.app.use('/listeOperations', listOperationRoutes.initializeRoutes());
     }
 }
 
