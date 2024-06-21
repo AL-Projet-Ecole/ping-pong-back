@@ -11,7 +11,7 @@ exports.getListeOperationById = async (id_gamme) => {
 
 exports.createListeOperation = async (body) => {
     const machine = body;
-    machine.id_machine = uuid.v4();
+    machine.id_liste_operation = uuid.v4();
     await ListeOperation.create(machine);
 };
 
