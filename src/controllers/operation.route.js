@@ -12,7 +12,7 @@ router.get('/:id_operation', async (req, res) => {
     const foundOperation = await operationRepository.getOperationById(req.params.id_operation);
 
     if (foundOperation) {
-        res.status(200).send([foundOperation]);
+        res.status(200).send(foundOperation);
         return;
     }
     if (!foundOperation) {
