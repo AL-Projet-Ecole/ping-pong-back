@@ -26,14 +26,13 @@ router.post(
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
-
         const { titre_gamme } = req.body;
         try {
             const gamme = await gammeRepository.getGammeByTitre(titre_gamme);
 
             if (!gamme) {
-                await gammeRepository.createGamme(req.body);
-                res.status(201).end();
+                const newGamme = await gammeRepository.createGamme(req.body);
+                res.status(201).json(newGamme); // Envoyer la nouvelle gamme créée en réponse
             } else {
                 res.status(412).send("Une Gamme a déjà ce titre !");
             }
@@ -42,6 +41,7 @@ router.post(
         }
     }
 );
+
 
 router.put('/:id_gamme', async (req, res) => {
     try {

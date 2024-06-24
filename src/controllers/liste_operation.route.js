@@ -9,19 +9,33 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id_gamme', async (req, res) => {
-    const foundAllListeOperation = await listeOperationRepository.getListeOperationById(req.params.id_gamme);
+    try {
+        const foundAllListeOperation = await listeOperationRepository.getListeOperationById(req.params.id_gamme);
 
-    if (foundAllListeOperation) {
-        res.status(200).send([foundAllListeOperation]);
-        return;
+        if (foundAllListeOperation) {
+            res.status(200).send(foundAllListeOperation);
+        } else {
+            res.status(404).send('Operation not found');
+        }
+    } catch (error) {
+        res.status(500).send('Server error');
     }
-    if (!foundAllListeOperation) {
-        const foundOperation = null;
-        res.status(500).send('Operation not found');
-        return ;
-    }
-    res.send(foundAllListeOperation);
 });
+
+router.get('/Unassigned/:id_gamme', async (req, res) => {
+    try {
+        const foundUnassignedListeOperation = await listeOperationRepository.getUnassignedListeOperationById(req.params.id_gamme);
+
+        if (foundUnassignedListeOperation) {
+            res.status(200).send(foundUnassignedListeOperation);
+        } else {
+            res.status(404).send('Operation not found');
+        }
+    } catch (error) {
+        res.status(500).send('Server error');
+    }
+});
+
 router.post(
     '/',
     async (req, res) => {

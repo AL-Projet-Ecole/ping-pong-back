@@ -1,4 +1,5 @@
 const uuid = require('uuid');
+const { Op } = require('sequelize');
 const ListeOperation = require('./liste_operation.model');
 
 exports.getListeOperations = async () => {
@@ -6,8 +7,20 @@ exports.getListeOperations = async () => {
 }
 
 exports.getListeOperationById = async (id_gamme) => {
-    return await ListeOperation.findAll({where : {id_gamme}});
+    return await ListeOperation.findAll({ where: { id_gamme } });
 }
+
+exports.getUnassignedListeOperationById = async (id_gamme) => {
+    return await ListeOperation.findAll({
+        where: {
+            id_gamme: {
+                [Op.ne]: id_gamme
+            }
+        },
+        attributes: ['id_operation'],
+        group: ['id_operation']
+    });
+};
 
 exports.createListeOperation = async (body) => {
     const machine = body;
