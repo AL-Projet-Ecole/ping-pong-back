@@ -8,20 +8,36 @@ router.get('/', async (req, res) => {
     res.send(await posteMachineRepository.getPosteMachines());
 });
 
-router.get('/:id_gamme', async (req, res) => {
-    const foundAllPosteMachine = await posteMachineRepository.getPosteMachineById(req.params.id_gamme);
+router.get('/listMachine/:id_poste', async (req, res) => {
+    const foundAllMachine = await posteMachineRepository.getPosteMachineById(req.params.id_poste);
 
-    if (foundAllPosteMachine) {
-        res.status(200).send([foundAllPosteMachine]);
+    if (foundAllMachine) {
+        res.status(200).send([foundAllMachine]);
         return;
     }
-    if (!foundAllPosteMachine) {
+    if (!foundAllMachine) {
         const foundOperation = null;
-        res.status(500).send('Operation not found');
+        res.status(500).send('Machine not found');
         return ;
     }
-    res.send(foundAllPosteMachine);
+    res.send(foundAllMachine);
 });
+
+router.get('/listPost/:id_machine', async (req, res) => {
+    const foundAllPoste = await posteMachineRepository.getMachinePosteById(req.params.id_machine);
+
+    if (foundAllPoste) {
+        res.status(200).send([foundAllPoste]);
+        return;
+    }
+    if (!foundAllPoste) {
+        const foundAllPost = null;
+        res.status(500).send('Poste not found');
+        return ;
+    }
+    res.send(foundAllPoste);
+});
+
 router.post(
     '/',
     async (req, res) => {

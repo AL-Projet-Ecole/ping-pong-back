@@ -1,12 +1,16 @@
 const uuid = require('uuid');
-const ListeOperation = require('./liste_operation.model');
+const PosteMachine = require('./poste_machine.model');
 
-exports.getListeOperations = async () => {
-    return await ListeOperation.findAll();
+exports.getPosteMachines = async () => {
+    return await PosteMachine.findAll();
 }
 
-exports.getListeOperationById = async (id_gamme) => {
-    return await ListeOperation.findAll({where : {id_gamme}});
+exports.getPosteMachineById = async (id_poste) => {
+    return await PosteMachine.findAll({where : {id_poste}});
+}
+
+exports.getMachinePosteById = async (id_machine) => {
+    return await PosteMachine.findAll({where : {id_machine}});
 }
 
 exports.createListeOperation = async (body) => {

@@ -9,6 +9,7 @@ const realisationRoutes = require('../controllers/realisation.route');
 const operationRoutes = require('../controllers/operation.route');
 const gammeRoutes = require('../controllers/gamme.route');
 const listOperationRoutes = require('../controllers/liste_operation.route');
+const postMachinesRoutes = require('../controllers/liste_operation.route');
 const { sequelize } = require("../models/db");
 
 // Importation des modèles
@@ -67,6 +68,7 @@ class WebServer {
         this.app.use('/operations', operationRoutes.initializeRoutes());
         this.app.use('/gammes', gammeRoutes.initializeRoutes());
         this.app.use('/listeOperations', listOperationRoutes.initializeRoutes());
+        this.app.use('/postMachines', postMachinesRoutes.initializeRoutes());
     }
 
     _initializeModelRelations() {
