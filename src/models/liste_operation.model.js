@@ -29,16 +29,6 @@ const ListeOperation = sequelize.define(
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
         },
-        id_user: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            references: {
-                model: 'users',
-                key: 'id_user',
-            },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-        },
     },
     { tableName: 'liste_operations' }
 );

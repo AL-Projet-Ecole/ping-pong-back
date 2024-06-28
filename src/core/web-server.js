@@ -9,7 +9,7 @@ const realisationRoutes = require('../controllers/realisation.route');
 const operationRoutes = require('../controllers/operation.route');
 const gammeRoutes = require('../controllers/gamme.route');
 const listOperationRoutes = require('../controllers/liste_operation.route');
-const postMachinesRoutes = require('../controllers/liste_operation.route');
+const postMachinesRoutes = require('../controllers/poste_machine.route');
 const { sequelize } = require("../models/db");
 
 // Importation des modèles
@@ -31,10 +31,8 @@ class WebServer {
     constructor() {
         this.app = express();
 
-        // Définir les relations entre les modèles
         this._initializeModelRelations();
 
-        // Synchroniser les modèles avec la base de données
         // { force: true }
         sequelize.sync();
 

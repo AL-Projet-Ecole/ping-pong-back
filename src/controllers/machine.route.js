@@ -7,11 +7,11 @@ router.get('/', async (req, res) => {
     res.send(await machineRepository.getMachines());
 });
 
-router.get('/:nom_user', async (req, res) => {
+router.get('/:id_machine', async (req, res) => {
     const foundMachine = await machineRepository.getMachineById(req.params.id_machine);
 
     if (foundMachine) {
-        res.status(200).send([foundMachine]);
+        res.status(200).send(foundMachine);
         return;
     }
     if (!foundMachine) {
@@ -21,18 +21,14 @@ router.get('/:nom_user', async (req, res) => {
     }
     res.send(foundMachine);
 });
+
 router.post(
     '/',
     body('libelle_machine').notEmpty(),
     async (req, res) => {
         try{
-            if (req.body.libelle_machine.length > 8 ){
-                await machineRepository.createMachine(req.body);
-                res.status(201).end();
-            }
-            else {
-                res.status(412).send("Le titre n'est pas assé long ! !")
-            }
+            await machineRepository.createMachine(req.body);
+            res.status(201).end();
         } catch (e){
             res.status(411).send(e)
         }

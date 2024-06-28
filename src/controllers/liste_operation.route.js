@@ -39,11 +39,11 @@ router.get('/Unassigned/:id_gamme', async (req, res) => {
 router.post(
     '/',
     async (req, res) => {
-        const {nom_user} = req.body;
         try{
             await listeOperationRepository.createListeOperation(req.body);
+            res.status(201).send({ message: "Operation créée avec succès" });
         } catch (e){
-            res.status(411).send(e)
+            res.status(500).send(e);
         }
 
     },

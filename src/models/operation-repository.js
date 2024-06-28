@@ -10,10 +10,15 @@ exports.getOperationById = async (id_operation) => {
 }
 
 exports.createOperation = async (body) => {
-    const operation = body;
-    operation.id_operation = uuid.v4();
-    await Operation.create(operation);
+    try {
+        const operation = body;
+        operation.id_operation = uuid.v4();
+        await Operation.create(operation);
+    } catch (error) {
+        throw error;
+    }
 };
+
 
 exports.updateOperation = async (id_operation, data) => {
     const foundOperation = await Operation.findOne({ where: { id_operation } });
@@ -32,6 +37,6 @@ exports.updateOperation = async (id_operation, data) => {
 };
 
 
-exports.deleteOperation = async (id_poste) => {
-    await Operation.destroy({ where: { id_poste } });
+exports.deleteOperation = async (id_operation) => {
+    await Operation.destroy({ where: { id_operation } });
 };

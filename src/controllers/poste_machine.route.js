@@ -12,11 +12,11 @@ router.get('/listMachine/:id_poste', async (req, res) => {
     const foundAllMachine = await posteMachineRepository.getPosteMachineById(req.params.id_poste);
 
     if (foundAllMachine) {
-        res.status(200).send([foundAllMachine]);
+        res.status(200).send(foundAllMachine);
         return;
     }
     if (!foundAllMachine) {
-        const foundOperation = null;
+        const foundAllMachine = null;
         res.status(500).send('Machine not found');
         return ;
     }
@@ -27,7 +27,7 @@ router.get('/listPost/:id_machine', async (req, res) => {
     const foundAllPoste = await posteMachineRepository.getMachinePosteById(req.params.id_machine);
 
     if (foundAllPoste) {
-        res.status(200).send([foundAllPoste]);
+        res.status(200).send(foundAllPoste);
         return;
     }
     if (!foundAllPoste) {
@@ -38,14 +38,28 @@ router.get('/listPost/:id_machine', async (req, res) => {
     res.send(foundAllPoste);
 });
 
+router.get('/Unassigned/:id_poste', async (req, res) => {
+    try {
+        const foundUnassignedListeMachine = await posteMachineRepository.getUnassignedListePosteMachineById(req.params.id_poste);
+
+        if (foundUnassignedListeMachine) {
+            res.status(200).send(foundUnassignedListeMachine);
+        } else {
+            res.status(404).send('Operation not found');
+        }
+    } catch (error) {
+        res.status(500).send('Server error');
+    }
+});
+
 router.post(
     '/',
     async (req, res) => {
-        const {nom_user} = req.body;
         try{
             await posteMachineRepository.createPosteMachine(req.body);
+            res.status(201).send({ message: "Relation Poste/Machine créée avec succès" });
         } catch (e){
-            res.status(411).send(e)
+            res.status(500).send(e)
         }
 
     },

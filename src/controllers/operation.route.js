@@ -25,15 +25,15 @@ router.get('/:id_operation', async (req, res) => {
 router.post(
     '/',
     async (req, res) => {
-        const {nom_user} = req.body;
-        try{
+        try {
             await operationRepository.createOperation(req.body);
-        } catch (e){
-            res.status(411).send(e)
+            res.status(201).send({ message: "Operation créée avec succès" });
+        } catch (e) {
+            res.status(500).send(e);
         }
-
     },
 );
+
 router.delete('/:id_operation', async (req, res) => {
     await operationRepository.deleteOperation(req.params.id_operation);
     res.status(204).end();

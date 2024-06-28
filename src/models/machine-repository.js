@@ -5,7 +5,7 @@ exports.getMachines = async () => {
     return await Machine.findAll();
 }
 
-exports.getMachineById = async (nom_user) => {
+exports.getMachineById = async (id_machine) => {
     return await Machine.findOne({where : {id_machine}});
 }
 

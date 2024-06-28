@@ -1,5 +1,7 @@
 const uuid = require('uuid');
 const PosteMachine = require('./poste_machine.model');
+const Machine = require("./machine.model");
+const {Op} = require("sequelize");
 
 exports.getPosteMachines = async () => {
     return await PosteMachine.findAll();
@@ -13,10 +15,27 @@ exports.getMachinePosteById = async (id_machine) => {
     return await PosteMachine.findAll({where : {id_machine}});
 }
 
-exports.createListeOperation = async (body) => {
-    const machine = body;
-    machine.id_machine = uuid.v4();
-    await ListeOperation.create(machine);
+exports.getUnassignedListePosteMachineById = async (id_poste) => {
+    const assignedMachines = await PosteMachine.findAll({
+        where: { id_poste },
+        attributes: ['id_machine']
+    });
+
+    const assignedMachinesIds = assignedMachines.map(machine => machine.id_machine);
+
+    return await Machine.findAll({
+        where: {
+            id_machine: {
+                [Op.notIn]: assignedMachinesIds
+            }
+        }
+    });
+};
+
+exports.createPosteMachine = async (body) => {
+    const posteMachine = body;
+    posteMachine.id_poste_machine = uuid.v4();
+    await PosteMachine.create(posteMachine);
 };
 
 exports.updateListeOperation = async (id_liste_operation, data) => {
@@ -37,6 +56,6 @@ exports.updateListeOperation = async (id_liste_operation, data) => {
 };
 
 
-exports.deleteListeOperation = async (id_liste_operation) => {
-    await ListeOperation.destroy({ where: { id_liste_operation } });
+exports.deletePosteMachine = async (id_poste_machine) => {
+    await PosteMachine.destroy({ where: { id_poste_machine } });
 };
