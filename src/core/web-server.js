@@ -34,6 +34,7 @@ class WebServer {
         this._initializeModelRelations();
 
         // { force: true }
+        // { alter: true }
         sequelize.sync();
 
         // Initialiser les middlewares

@@ -24,13 +24,14 @@ exports.updateOperation = async (id_operation, data) => {
     const foundOperation = await Operation.findOne({ where: { id_operation } });
 
     if (!foundOperation) {
-        throw new Error('Pas de poste');
+        throw new Error('Pas de donnée trouvé pour les operations');
     }
 
     await Operation.update(
         {
+            id_machine: data.id_machine || foundOperation.id_machine,
             libelle_operation: data.libelle_operation || foundOperation.libelle_operation,
-            temp_estimation: data.temp_estimation || foundOperation.temp_estimation,
+            temps_estimation: data.temps_estimation || foundOperation.temps_estimation,
         },
         { where: { id_operation } },
     );

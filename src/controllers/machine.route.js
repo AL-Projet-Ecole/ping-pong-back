@@ -36,10 +36,14 @@ router.post(
     },
 );
 
-
 router.put('/:id_machine', async (req, res) => {
-    await machineRepository.updateMachine(req.params.id_machine, req.body).catch((err) => res.status(500).send(err.message));
-    res.status(204).end();
+    try {
+        await machineRepository.updateMachine(req.params.id_machine, req.body);
+        res.status(204).end();
+    } catch (err) {
+        console.error('Erreur lors de la mise à jour de la machine:', err);
+        res.status(500).json({ error: err.message });
+    }
 });
 
 router.delete('/:id_machine', async (req, res) => {

@@ -2,7 +2,9 @@ const uuid = require('uuid');
 const Poste = require('./poste.model');
 
 exports.getPostes = async () => {
-    return await Poste.findAll();
+    return await Poste.findAll(
+        {order: [['updatedAt', 'DESC']]}
+    );
 }
 
 exports.getPosteByLibelle = async (libelle_poste) => {
@@ -25,7 +27,6 @@ exports.updatePoste = async (id_poste, data) => {
     await Poste.update(
         {
             libelle_poste: data.libelle_poste || foundPoste.libelle_poste,
-            //TODO FAIRE LE TOUT ICI
         },
         { where: { id_poste } },
     );
