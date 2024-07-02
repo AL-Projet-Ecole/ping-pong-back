@@ -2,7 +2,7 @@ const uuid = require('uuid');
 const Machine = require('./machine.model');
 
 exports.getMachines = async () => {
-    return await Machine.findAll();
+    return await Machine.findAll({order: [['updatedAt', 'DESC']]});
 }
 
 exports.getMachineById = async (id_machine) => {
@@ -24,8 +24,7 @@ exports.updateMachine = async (id_machine, data) => {
 
     await Machine.update(
         {
-            libelle_machine: data.libelle_machine || foundMachine.libelle_machine,
-            //TODO FAIRE LE TOUT ICI
+            libelle_machine: data.libelle_machine || foundMachine.libelle_machine
         },
         { where: { id_machine } },
     );

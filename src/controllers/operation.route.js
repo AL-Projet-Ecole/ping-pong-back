@@ -34,6 +34,17 @@ router.post(
     },
 );
 
+router.put('/:id_operation', async (req, res) => {
+    try {
+        await operationRepository.updateOperation(req.params.id_operation, req.body);
+        res.status(204).end();
+    } catch (err) {
+        console.error('Erreur lors de la mise à jour de l opération:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
 router.delete('/:id_operation', async (req, res) => {
     await operationRepository.deleteOperation(req.params.id_operation);
     res.status(204).end();

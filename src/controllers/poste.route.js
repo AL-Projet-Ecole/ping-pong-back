@@ -44,8 +44,13 @@ router.post(
 
 
 router.put('/:id_poste', async (req, res) => {
-    await posteRepository.updatePoste(req.params.id, req.body).catch((err) => res.status(500).send(err.message));
-    res.status(204).end();
+    try {
+        await posteRepository.updatePoste(req.params.id_poste, req.body);
+        res.status(204).end();
+    } catch (err) {
+        console.error('Erreur lors de la mise à jour du poste:', err); // Log l'erreur
+        res.status(500).json({ error: err.message });
+    }
 });
 
 router.delete('/:id_poste', async (req, res) => {
