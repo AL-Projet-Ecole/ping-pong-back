@@ -30,7 +30,10 @@ exports.updateMachine = async (id_machine, data) => {
     );
 };
 
-
 exports.deleteMachine = async (id_machine) => {
-    await Machine.destroy({ where: { id_machine } });
+    try {
+        await Machine.destroy({ where: { id_machine } });
+    } catch (error) {
+        throw error;
+    }
 };

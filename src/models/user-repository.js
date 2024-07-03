@@ -7,6 +7,10 @@ exports.getUsers = async () => {
     return await User.findAll();
 }
 
+exports.getUserById = async (id_user) => {
+    return await User.findOne({where : {id_user}});
+}
+
 exports.getUserByNom = async (nom_user) => {
     return await User.findOne({where : {nom_user}});
 }

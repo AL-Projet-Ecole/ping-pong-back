@@ -7,11 +7,11 @@ router.get('/', async (req, res) => {
     res.send(await posteRepository.getPostes());
 });
 
-router.get('/:nom_user', async (req, res) => {
+router.get('/:id_poste', async (req, res) => {
     const foundPoste = await posteRepository.getPosteById(req.params.id_poste);
 
     if (foundPoste) {
-        res.status(200).send([foundPoste]);
+        res.status(200).send(foundPoste);
         return;
     }
     if (!foundPoste) {
@@ -52,10 +52,18 @@ router.put('/:id_poste', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-
 router.delete('/:id_poste', async (req, res) => {
-    await posteRepository.deletePoste(req.params.id_poste);
-    res.status(204).end();
+    const { id_poste } = req.params;
+    try {
+        await posteRepository.deletePoste(id_poste);
+        res.status(204).json({ message: 'Poste de travail supprimée avec succès.' });
+    } catch (error) {
+        if (error.name === 'SequelizeForeignKeyConstraintError') {
+            res.status(400).json({ message: 'Impossible de supprimer ce poste de travail car il est référencé par une réalisation.' });
+        } else {
+            res.status(500).json({ message: 'Erreur serveur.', error: error.message });
+        }
+    }
 });
 
 exports.initializeRoutes = () => router;

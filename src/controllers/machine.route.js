@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const machineRepository = require('../models/machine-repository');
 const { body } = require('express-validator');
+const gammeRepository = require("../models/gamme-repository");
 
 router.get('/', async (req, res) => {
     res.send(await machineRepository.getMachines());
@@ -47,8 +48,17 @@ router.put('/:id_machine', async (req, res) => {
 });
 
 router.delete('/:id_machine', async (req, res) => {
-    await machineRepository.deleteMachine(req.params.id_machine);
-    res.status(204).end();
+    const { id_machine } = req.params;
+    try {
+        await machineRepository.deleteMachine(id_machine);
+        res.status(204).json({ message: 'Machine supprimée avec succès.' });
+    } catch (error) {
+        if (error.name === 'SequelizeForeignKeyConstraintError') {
+            res.status(400).json({ message: 'Impossible de supprimer cette machine car elle est référencée par une réalisation.' });
+        } else {
+            res.status(500).json({ message: 'Erreur serveur.', error: error.message });
+        }
+    }
 });
 
 exports.initializeRoutes = () => router;

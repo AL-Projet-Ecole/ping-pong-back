@@ -1,5 +1,6 @@
 const uuid = require('uuid');
 const Operation = require('./operation.model');
+const Poste = require("./poste.model");
 
 exports.getOperations = async () => {
     return await Operation.findAll();
@@ -37,7 +38,10 @@ exports.updateOperation = async (id_operation, data) => {
     );
 };
 
-
 exports.deleteOperation = async (id_operation) => {
-    await Operation.destroy({ where: { id_operation } });
+    try {
+        await Operation.destroy({ where: { id_operation } });
+    } catch (error) {
+        throw error;
+    }
 };
