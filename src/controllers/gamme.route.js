@@ -27,6 +27,16 @@ router.get('/id/:id_gamme', async (req, res) => {
     }
 });
 
+router.get('/type/:type_gamme', async (req, res) => {
+    const foundGammes = await gammeRepository.getGammeByType(req.params.type_gamme);
+
+    if (foundGammes) {
+        res.status(200).send(foundGammes);
+    } else {
+        res.status(404).send('Gamme not found');
+    }
+});
+
 router.post(
     '/',
     body('titre_gamme').notEmpty().withMessage('Le titre de la gamme ne peut pas être vide'),
