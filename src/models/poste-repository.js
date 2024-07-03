@@ -7,6 +7,10 @@ exports.getPostes = async () => {
     );
 }
 
+exports.getPosteById = async (id_poste) => {
+    return await Poste.findOne({where : {id_poste}});
+}
+
 exports.getPosteByLibelle = async (libelle_poste) => {
     return await Poste.findOne({where : {libelle_poste}});
 }
@@ -32,7 +36,10 @@ exports.updatePoste = async (id_poste, data) => {
     );
 };
 
-
 exports.deletePoste = async (id_poste) => {
-    await Poste.destroy({ where: { id_poste } });
+    try {
+        await Poste.destroy({ where: { id_poste } });
+    } catch (error) {
+        throw error;
+    }
 };

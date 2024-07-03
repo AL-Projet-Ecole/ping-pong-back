@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const operationRepository = require('../models/operation-repository');
-const { validateBody } = require('./validation/route.validator');
-const { body } = require('express-validator');
 
 router.get('/', async (req, res) => {
     res.send(await operationRepository.getOperations());
@@ -48,6 +46,20 @@ router.put('/:id_operation', async (req, res) => {
 router.delete('/:id_operation', async (req, res) => {
     await operationRepository.deleteOperation(req.params.id_operation);
     res.status(204).end();
+});
+
+router.delete('/:id_operation', async (req, res) => {
+    const { id_operation } = req.params;
+    try {
+        await operationRepository.deleteOperation(id_operation);
+        res.status(204).json({ message: 'Opération supprimée avec succès.' });
+    } catch (error) {
+        if (error.name === 'SequelizeForeignKeyConstraintError') {
+            res.status(400).json({ message: 'Impossible de supprimer cette opération car elle est référencée par une réalisation.' });
+        } else {
+            res.status(500).json({ message: 'Erreur serveur.', error: error.message });
+        }
+    }
 });
 
 exports.initializeRoutes = () => router;

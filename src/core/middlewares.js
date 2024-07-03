@@ -1,27 +1,23 @@
 const express = require('express');
 const cors = require('cors');
-const { DateTime } = require('luxon');
-//const { expressjwt: jwt } = require('express-jwt');
+const jwt = require('jsonwebtoken');
 
-const initJsonHandlerMiddlware = (app) => {
+const initJsonHandlerMiddleware = (app) => {
     app.use(express.json());
-    app.use(express.urlencoded({extended: false}))
-}
+    app.use(express.urlencoded({ extended: false }));
+};
 
-const initCorsMiddlware = (app) => app.use(cors());
+const initCorsMiddleware = (app) => app.use(cors());
 
-const initLoggerMiddlware = (app) => {
+const initLoggerMiddleware = (app) => {
     app.use((req, res, next) => {
-        const begin = new DateTime(new Date());
+        const begin = Date.now();
 
         res.on('finish', () => {
-            const requestDate = begin.toString();
+            const requestDate = new Date(begin).toISOString();
             const remoteIP = `IP: ${req.connection.remoteAddress}`;
             const httpInfo = `${req.method} ${req.baseUrl || req.path}`;
-
-            const end = new DateTime(new Date());
-            const requestDurationMs = end.diff(begin).toMillis();
-            const requestDuration = `Duration: ${requestDurationMs}ms`;
+            const requestDuration = `Duration: ${Date.now() - begin}ms`;
 
             console.log(`[${requestDate}] - [${remoteIP}] - [${httpInfo}] - [${requestDuration}]`);
         });
@@ -29,22 +25,33 @@ const initLoggerMiddlware = (app) => {
     });
 };
 
-const initJwtMiddleware = (app) => {
-    app.use(
-        jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] }).unless({
-            path: ['/auth/login', /\/assets*/, { url: '/users', method: 'POST' }],
-        }),
-    );
-};
+const authMiddleware = (req, res, next) => {
+    const token = req.header('Authorization').replace('Bearer ', '');
 
+    if (!token) {
+        return res.status(401).send('Access denied. No token provided.');
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (ex) {
+        res.status(400).send('Invalid token.');
+    }
+};
 
 exports.initializeConfigMiddlewares = (app) => {
-    initJsonHandlerMiddlware(app);
-    initCorsMiddlware(app);
-    initLoggerMiddlware(app);
+    initJsonHandlerMiddleware(app);
+    initCorsMiddleware(app);
+    initLoggerMiddleware(app);
 };
 
-exports.initializeErrorMiddlwares = (app) => {
+exports.initializeAuthMiddleware = (app) => {
+    app.use(authMiddleware);
+};
+
+exports.initializeErrorMiddlewares = (app) => {
     app.use((err, req, res, next) => {
         if (err.code === 'permission_denied') {
             res.status(403).send('Forbidden');

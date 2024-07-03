@@ -3,7 +3,9 @@ const Realisation = require('./realisation.model');
 const { generateREAMatricule } = require('../security/crypto');
 
 exports.getRealisations = async () => {
-    return await Realisation.findAll();
+    return await Realisation.findAll(
+        {order: [['updatedAt', 'DESC']]}
+    );
 }
 
 exports.getRealisationById = async (id_realisation) => {

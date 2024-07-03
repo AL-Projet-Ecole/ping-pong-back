@@ -9,6 +9,10 @@ exports.getGammeByTitre = async (titre_gamme) => {
     return await Gamme.findOne({where : {titre_gamme}});
 }
 
+exports.getGammeById = async (id_gamme) => {
+    return await Gamme.findOne({where : {id_gamme}});
+}
+
 exports.createGamme = async (body) => {
     const gamme = body;
     gamme.id_gamme = uuid.v4();
@@ -32,5 +36,9 @@ exports.updateGamme = async (id_gamme, data) => {
 
 
 exports.deleteGamme = async (id_gamme) => {
-    await Gamme.destroy({ where: { id_gamme } });
+    try {
+        await Gamme.destroy({ where: { id_gamme } });
+    } catch (error) {
+        throw error;
+    }
 };

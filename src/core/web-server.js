@@ -1,5 +1,5 @@
 const express = require('express');
-const { initializeConfigMiddlewares, initializeErrorMiddlwares } = require('./middlewares');
+const { initializeConfigMiddlewares, initializeAuthMiddleware, initializeErrorMiddlewares } = require('./middlewares');
 const testRoutes = require('../controllers/test.route');
 const authRoutes = require('../controllers/auth.route');
 const userRoutes = require('../controllers/user.route');
@@ -22,6 +22,7 @@ const ListeOperation = require('../models/liste_operation.model');
 const User = require('../models/user.model');
 const Qualification = require('../models/qualification.model');
 const GammeRelation = require('../models/gamme_relation.model');
+const Realisation = require('../models/realisation.model');
 
 class WebServer {
     app = undefined;
@@ -43,8 +44,9 @@ class WebServer {
         // Initialiser les routes
         this._initializeRoutes();
 
+        initializeAuthMiddleware(this.app);
         // Initialiser les middlewares d'erreur
-        initializeErrorMiddlwares(this.app);
+        initializeErrorMiddlewares(this.app);
     }
 
     start() {
@@ -123,6 +125,52 @@ class WebServer {
             as: 'Parents',
             foreignKey: 'id_gamme_enfant',
             otherKey: 'id_gamme_parent',
+        });
+
+        // Relations Realisation
+        Realisation.belongsTo(Gamme, {
+            foreignKey: 'id_gamme',
+            onDelete: 'RESTRICT'
+        });
+
+        Realisation.belongsTo(User, {
+            foreignKey: 'id_user',
+            onDelete: 'RESTRICT'
+        });
+
+        Realisation.belongsTo(Operation, {
+            foreignKey: 'id_operation',
+            onDelete: 'RESTRICT'
+        });
+
+        Realisation.belongsTo(Poste, {
+            foreignKey: 'id_poste',
+            onDelete: 'RESTRICT'
+        });
+
+        Realisation.belongsTo(Machine, {
+            foreignKey: 'id_machine',
+            onDelete: 'RESTRICT'
+        });
+
+        Gamme.hasMany(Realisation, {
+            foreignKey: 'id_gamme'
+        });
+
+        User.hasMany(Realisation, {
+            foreignKey: 'id_user'
+        });
+
+        Operation.hasMany(Realisation, {
+            foreignKey: 'id_operation'
+        });
+
+        Poste.hasMany(Realisation, {
+            foreignKey: 'id_poste'
+        });
+
+        Machine.hasMany(Realisation, {
+            foreignKey: 'id_machine'
         });
     }
 }
