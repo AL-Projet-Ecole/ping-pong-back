@@ -2,7 +2,7 @@ const uuid = require('uuid');
 const Gamme = require('./gamme.model');
 
 exports.getGammes = async () => {
-    return await Gamme.findAll();
+    return await Gamme.findAll({order: [['updatedAt', 'DESC']]});
 }
 
 exports.getGammeByTitre = async (titre_gamme) => {
@@ -10,7 +10,11 @@ exports.getGammeByTitre = async (titre_gamme) => {
 }
 
 exports.getGammeById = async (id_gamme) => {
-    return await Gamme.findOne({where : {id_gamme}});
+    return await Gamme.findOne({where : {id_gamme}},{order: [['updatedAt', 'DESC']]});
+}
+
+exports.getGammeByType = async (type_gamme) => {
+    return await Gamme.findAll({where : {type_gamme}});
 }
 
 exports.createGamme = async (body) => {
