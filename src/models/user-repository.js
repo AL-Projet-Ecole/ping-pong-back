@@ -7,8 +7,18 @@ exports.getUsers = async () => {
     return await User.findAll();
 }
 
+exports.getUserById = async (id_user) => {
+    return await User.findOne({where : {id_user}});
+}
+
 exports.getUserByNom = async (nom_user) => {
     return await User.findOne({where : {nom_user}});
+}
+
+exports.getUserByLogin = async (login_user) => {
+    console.log("je suis ici");
+    console.log(login_user);
+    return await User.findOne({where : {login_user}});
 }
 
 exports.createUser = async (body) => {

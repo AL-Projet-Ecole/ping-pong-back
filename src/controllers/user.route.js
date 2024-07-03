@@ -12,7 +12,7 @@ router.get('/:nom_user', async (req, res) => {
     const foundUser = await userRepository.getUserByNom(req.params.nom_user);
 
     if (foundUser) {
-        res.status(200).send([foundUser]);
+        res.status(200).send(foundUser);
         return;
     }
     if (!foundUser) {
@@ -22,6 +22,21 @@ router.get('/:nom_user', async (req, res) => {
     }
     res.send(foundUser);
 });
+router.get('/id/:id_user', async (req, res) => {
+    const foundUser = await userRepository.getUserById(req.params.id_user);
+
+    if (foundUser) {
+        res.status(200).send(foundUser);
+        return;
+    }
+    if (!foundUser) {
+        const foundUser = null;
+        res.status(500).send('User not found');
+        return ;
+    }
+    res.send(foundUser);
+});
+
 router.post(
     '/',
     body('nom_user').notEmpty(),
@@ -31,7 +46,7 @@ router.post(
             const user = await userRepository.getUserByNom(nom_user);
 
             if (!user){
-                if (req.body.mdp_user.length() > 8 ){
+                if (req.body.mdp_user.length > 8 ){
                     await userRepository.createUser(req.body);
                     res.status(201).end();
                 }
@@ -56,7 +71,7 @@ router.put('/:id_user', async (req, res) => {
 });
 
 router.delete('/:id_user', async (req, res) => {
-    await userRepository.deleteUser(req.params.id);
+    await userRepository.deleteUser(req.params.id_user);
     res.status(204).end();
 });
 

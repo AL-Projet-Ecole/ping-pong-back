@@ -34,3 +34,8 @@ package-lock.json
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+Dockerfile
+.gitignore
+.git
+.github

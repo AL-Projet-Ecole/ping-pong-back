@@ -9,7 +9,8 @@ const user = sequelize.define(
         mdp_user: { type: DataTypes.STRING, allowNull: false },
         nom_user: { type: DataTypes.STRING, allowNull: false },
         prenom_user: { type: DataTypes.STRING, allowNull: false },
-        email_user: { type: DataTypes.STRING, allowNull: false }
+        email_user: { type: DataTypes.STRING, allowNull: false },
+        role_user: {type: DataTypes.SMALLINT, allowNull: false}
     },
     { tableName: 'users' },
 );
