@@ -10,7 +10,7 @@ const operationRoutes = require('../controllers/operation.route');
 const gammeRoutes = require('../controllers/gamme.route');
 const listOperationRoutes = require('../controllers/liste_operation.route');
 const postMachinesRoutes = require('../controllers/poste_machine.route');
-const operationMachinesRoutes = require('../controllers/poste_machine.route');
+const operationMachinesRoutes = require('../controllers/operation_machine.route');
 const { sequelize } = require("../models/db");
 
 // Importation des modèles
