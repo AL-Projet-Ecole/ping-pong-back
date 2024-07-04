@@ -22,7 +22,7 @@ router.get('/listMachine/:id_operation', async (req, res) => {
 });
 
 router.get('/listOperation/:id_machine', async (req, res) => {
-    const foundAllOperation = await operationMachineRepository.getMachinePosteById(req.params.id_machine);
+    const foundAllOperation = await operationMachineRepository.getMachineOperationById(req.params.id_machine);
 
     if (foundAllOperation) {
         res.status(200).send(foundAllOperation);

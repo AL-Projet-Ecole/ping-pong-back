@@ -11,7 +11,7 @@ exports.getOperationMachineById = async (id_operation) => {
     return await OperationMachine.findAll({where : {id_operation}});
 }
 
-exports.getMachinePosteById = async (id_machine) => {
+exports.getMachineOperationById = async (id_machine) => {
     return await OperationMachine.findAll({where : {id_machine}});
 }
 

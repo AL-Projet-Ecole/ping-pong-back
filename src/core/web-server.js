@@ -90,7 +90,7 @@ class WebServer {
         });
 
         // Relations Operation - Machine
-        Poste.belongsToMany(Machine, {
+        Operation.belongsToMany(Machine, {
             through: OperationMachine,
             foreignKey: 'id_operation',
             otherKey: 'id_machine',
