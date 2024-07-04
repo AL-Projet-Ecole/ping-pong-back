@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const operationMachineRepository = require('../models/operation_machine-repository');
+const Machine = require('../models/machine.model');
+const Operation = require('../models/operation.model');
 
 router.get('/', async (req, res) => {
     res.send(await operationMachineRepository.getOperationMachines());
@@ -50,18 +52,28 @@ router.get('/Unassigned/:id_operation', async (req, res) => {
     }
 });
 
-router.post(
-    '/',
-    async (req, res) => {
-        try{
-            await operationMachineRepository.createOperationMachine(req.body);
-            res.status(201).send({ message: "Relation Operation/Machine créée avec succès" });
-        } catch (e){
-            res.status(500).send(e)
+router.post('/', async (req, res) => {
+    try {
+        const { id_operation, id_machine } = req.body;
+
+
+        const operation = await Operation.findByPk(id_operation);
+        const machine = await Machine.findByPk(id_machine);
+
+        if (!operation) {
+            return res.status(400).send({ message: 'Operation ID does not exist in the operations table.' });
         }
 
-    },
-);
+        if (!machine) {
+            return res.status(400).send({ message: 'Machine ID does not exist in the machines table.' });
+        }
+
+        await operationMachineRepository.createOperationMachine(req.body);
+        res.status(201).send({ message: 'Relation Operation/Machine créée avec succès' });
+    } catch (e) {
+        res.status(500).send(e);
+    }
+});
 router.delete('/:id_operation_machine', async (req, res) => {
     await operationMachineRepository.deleteOperationMachine(req.params.id_operation_machine);
     res.status(204).end();
