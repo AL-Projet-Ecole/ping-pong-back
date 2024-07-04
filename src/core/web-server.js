@@ -96,7 +96,7 @@ class WebServer {
             otherKey: 'id_machine',
         });
 
-        Machine.belongsToMany(Poste, {
+        Machine.belongsToMany(Operation, {
             through: OperationMachine,
             foreignKey: 'id_machine',
             otherKey: 'id_operation',
