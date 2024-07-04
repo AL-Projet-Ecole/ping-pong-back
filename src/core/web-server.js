@@ -10,12 +10,14 @@ const operationRoutes = require('../controllers/operation.route');
 const gammeRoutes = require('../controllers/gamme.route');
 const listOperationRoutes = require('../controllers/liste_operation.route');
 const postMachinesRoutes = require('../controllers/poste_machine.route');
+const operationMachinesRoutes = require('../controllers/poste_machine.route');
 const { sequelize } = require("../models/db");
 
 // Importation des modèles
 const Poste = require('../models/poste.model');
 const Machine = require('../models/machine.model');
 const PosteMachine = require('../models/poste_machine.model');
+const OperationMachine = require('../models/operation_machine.model');
 const Gamme = require('../models/gamme.model');
 const Operation = require('../models/operation.model');
 const ListeOperation = require('../models/liste_operation.model');
@@ -36,7 +38,7 @@ class WebServer {
 
         // { force: true }
         // { alter: true }
-        sequelize.sync();
+        sequelize.sync({ alter: true });
 
         // Initialiser les middlewares
         initializeConfigMiddlewares(this.app);
@@ -70,6 +72,7 @@ class WebServer {
         this.app.use('/gammes', gammeRoutes.initializeRoutes());
         this.app.use('/listeOperations', listOperationRoutes.initializeRoutes());
         this.app.use('/postMachines', postMachinesRoutes.initializeRoutes());
+        this.app.use('/operationMachines', operationMachinesRoutes.initializeRoutes());
     }
 
     _initializeModelRelations() {
@@ -84,6 +87,19 @@ class WebServer {
             through: PosteMachine,
             foreignKey: 'id_machine',
             otherKey: 'id_poste',
+        });
+
+        // Relations Operation - Machine
+        Poste.belongsToMany(Machine, {
+            through: OperationMachine,
+            foreignKey: 'id_operation',
+            otherKey: 'id_machine',
+        });
+
+        Machine.belongsToMany(Poste, {
+            through: OperationMachine,
+            foreignKey: 'id_machine',
+            otherKey: 'id_operation',
         });
 
         // Relations Gamme - Operation
