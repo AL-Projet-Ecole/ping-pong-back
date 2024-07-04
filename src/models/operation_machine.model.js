@@ -4,7 +4,7 @@ const { sequelize } = require('./db');
 const OperationMachine = sequelize.define(
     'OperationMachine',
     {
-        id_poste_machine: {
+        id_operation_machine: {
             type: DataTypes.STRING,
             primaryKey: true,
             allowNull: false,
