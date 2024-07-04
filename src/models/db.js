@@ -15,7 +15,7 @@ if (dsn === undefined) {
     const variables = read_base64_json('PLATFORM_VARIABLES')
     dsn = variables["CONNECTION_STRING"]
 }
-console.log(dsn);
+
 const sequelize = new Sequelize(dsn);
 
 sequelize.authenticate()
