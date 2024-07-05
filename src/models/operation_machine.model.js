@@ -11,7 +11,7 @@ const OperationMachine = sequelize.define('OperationMachine', {
         type: DataTypes.STRING,
         allowNull: false,
         references: {
-            model: 'Operation',
+            model: 'operations',
             key: 'id_operation',
         },
         onDelete: 'CASCADE',
