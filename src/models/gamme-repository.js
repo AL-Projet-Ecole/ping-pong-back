@@ -33,6 +33,11 @@ exports.updateGamme = async (id_gamme, data) => {
     await Gamme.update(
         {
             titre_gamme: data.titre_gamme || foundGamme.titre_gamme,
+            description_gamme: data.description_gamme || foundGamme.description_gamme,
+            prix_gamme: data.prix_gamme || foundGamme.prix_gamme,
+            provenance_gamme: data.provenance_gamme || foundGamme.provenance_gamme,
+            type_gamme: data.type_gamme || foundGamme.type_gamme,
+            stock_gamme: data.stock_gamme || foundGamme.stock_gamme,
         },
         { where: { id_gamme } },
     );
